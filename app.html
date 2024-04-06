@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Tools</title>
+  <style>
+    /* CSS Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+    nav {
+      background-color: #444;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 20px;
+      margin: 20px;
+      background-color: #fff;
+    }
+    .article {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .article h2 {
+      color: #333;
+    }
+    .article p {
+      color: #666;
+    }
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .delete-btn:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Application Tools</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <section id="postSection">
+    <!-- Posts will be loaded here -->
+  </section>
+  
+    <footer>
+        <p>&copy; 2024 News Blog</p>
+    </footer>
+
+  <script>
+    // Load posts from localStorage
+    var posts = JSON.parse(localStorage.getItem("posts")) || [];
+    var postSection = document.getElementById('postSection');
+    
+    // Display posts
+    posts.forEach(function(post, index) {
+      var article = document.createElement('article');
+      article.classList.add('article');
+      
+      var h2 = document.createElement('h2');
+      h2.textContent = post.title;
+      
+      var p = document.createElement('p');
+      p.textContent = post.content;
+      
+      var deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.addEventListener('click', function() {
+        // Remove the post from the array
+        posts.splice(index, 1);
+        // Update localStorage
+        localStorage.setItem('posts', JSON.stringify(posts));
+        // Remove the post element from the DOM
+        article.remove();
+      });
+
+      article.appendChild(h2);
+      article.appendChild(p);
+      article.appendChild(deleteBtn);
+      
+      postSection.appendChild(article);
+    });
+  </script>
+</body>
+</html>
