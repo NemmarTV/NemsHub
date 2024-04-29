@@ -75,47 +75,21 @@
   </nav>
 
   <section id="postSection">
-    <!-- Posts will be loaded here -->
+    <div class="article">
+      <h2>Article 1</h2>
+      <p>This is the first article.</p>
+      <button class="delete-btn">Delete</button>
+    </div>
+    <div class="article">
+      <h2>Article 2</h2>
+      <p>This is the second article.</p>
+      <button class="delete-btn">Delete</button>
+    </div>
   </section>
-  
-    <footer>
-        <p>&copy; 2024 News Blog</p>
-    </footer>
 
-  <script>
-    // Load posts from localStorage
-    var posts = JSON.parse(localStorage.getItem("posts")) || [];
-    var postSection = document.getElementById('postSection');
-    
-    // Display posts
-    posts.forEach(function(post, index) {
-      var article = document.createElement('article');
-      article.classList.add('article');
-      
-      var h2 = document.createElement('h2');
-      h2.textContent = post.title;
-      
-      var p = document.createElement('p');
-      p.textContent = post.content;
-      
-      var deleteBtn = document.createElement('button');
-      deleteBtn.textContent = 'Delete';
-      deleteBtn.classList.add('delete-btn');
-      deleteBtn.addEventListener('click', function() {
-        // Remove the post from the array
-        posts.splice(index, 1);
-        // Update localStorage
-        localStorage.setItem('posts', JSON.stringify(posts));
-        // Remove the post element from the DOM
-        article.remove();
-      });
+  <footer>
+    <p>&copy; 2024 News Blog</p>
+  </footer>
 
-      article.appendChild(h2);
-      article.appendChild(p);
-      article.appendChild(deleteBtn);
-      
-      postSection.appendChild(article);
-    });
-  </script>
 </body>
 </html>
