@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Key Generator</title>
+</head>
+<body>
+    <h1>Random Key Generator</h1>
+    <p id="keyDisplay">KEY: Not generated yet</p>
+    <p id="expirationDisplay">Expiration: Not available</p>
+
+    <script>
+        // Generate a random key
+        function generateRandomKey(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let key = '';
+            for (let i = 0; i < length; i++) {
+                key += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return key;
+        }
+
+        // Save the key and expiration time in localStorage
+        function saveKeyToStorage(key, expiresAt) {
+            const keyData = { key, expiresAt };
+            localStorage.setItem('randomKey', JSON.stringify(keyData));
+        }
+
+        // Load the key from localStorage
+        function loadKeyFromStorage() {
+            const keyData = localStorage.getItem('randomKey');
+            return keyData ? JSON.parse(keyData) : null;
+        }
+
+        // Check if the key is still valid
+        function isKeyValid(keyData) {
+            const now = Date.now();
+            return keyData && keyData.expiresAt > now;
+        }
+
+        // Generate and display a new key
+        function generateAndDisplayKey() {
+            const key = generateRandomKey(16); // Adjust key length as needed
+            const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours from now
+            saveKeyToStorage(key, expiresAt);
+
+            document.getElementById('keyDisplay').textContent = `KEY: ${key}`;
+            document.getElementById('expirationDisplay').textContent = `Expires on: ${new Date(expiresAt).toLocaleString()}`;
+        }
+
+        // On page load, check for an existing key or generate a new one
+        window.onload = function () {
+            const keyData = loadKeyFromStorage();
+
+            if (isKeyValid(keyData)) {
+                // Display existing valid key
+                document.getElementById('keyDisplay').textContent = `KEY: ${keyData.key}`;
+                document.getElementById('expirationDisplay').textContent = `Expires on: ${new Date(keyData.expiresAt).toLocaleString()}`;
+            } else {
+                // Generate a new key if expired or not found
+                generateAndDisplayKey();
+            }
+        };
+    </script>
+</body>
+</html>
